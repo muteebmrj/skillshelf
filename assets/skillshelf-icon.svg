@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Box gradient -->
+    <linearGradient id="boxGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4A574"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C4956A"/>
+      <stop offset="100%" stop-color="#7A5C30"/>
+    </linearGradient>
+    <linearGradient id="boxSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9E7445"/>
+      <stop offset="100%" stop-color="#6B4E28"/>
+    </linearGradient>
+    <!-- Claude glow -->
+    <radialGradient id="claudeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D97757" stop-opacity="0.4"/>
+      <stop offset="70%" stop-color="#D97757" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#D97757" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Spark gradient -->
+    <linearGradient id="sparkGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8956A"/>
+      <stop offset="50%" stop-color="#D97757"/>
+      <stop offset="100%" stop-color="#C45B3A"/>
+    </linearGradient>
+    <!-- Box interior -->
+    <linearGradient id="boxInner" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5A3D1A"/>
+      <stop offset="100%" stop-color="#3D2810"/>
+    </linearGradient>
+    <!-- Lid gradient -->
+    <linearGradient id="lidGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DDB882"/>
+      <stop offset="100%" stop-color="#C4956A"/>
+    </linearGradient>
+    <!-- Shadow filter -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Particle sparkle -->
+    <filter id="sparkle">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+
+  <!-- Background circle (optional, for social media) -->
+  <rect width="512" height="512" rx="80" fill="#1A1A1A"/>
+
+  <!-- Glow behind Claude icon -->
+  <ellipse cx="256" cy="190" rx="140" ry="140" fill="url(#claudeGlow)"/>
+
+  <!-- Floating sparkle particles -->
+  <circle cx="170" cy="120" r="3" fill="#D97757" opacity="0.6" filter="url(#sparkle)">
+    <animate attributeName="cy" values="120;110;120" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="340" cy="100" r="2.5" fill="#E8956A" opacity="0.5" filter="url(#sparkle)">
+    <animate attributeName="cy" values="100;88;100" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="140" r="2" fill="#D97757" opacity="0.4" filter="url(#sparkle)">
+    <animate attributeName="cy" values="140;128;140" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="200" cy="155" r="1.8" fill="#E8956A" opacity="0.5" filter="url(#sparkle)">
+    <animate attributeName="cy" values="155;145;155" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="360" cy="160" r="2.2" fill="#D97757" opacity="0.35" filter="url(#sparkle)">
+    <animate attributeName="cy" values="160;148;160" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- === CLAUDE ICON (emerging from box) === -->
+  <g filter="url(#glowFilter)">
+    <!-- Claude spark/asterisk shape — the iconic Claude mark -->
+    <g transform="translate(256, 175)">
+      <!-- Center circle -->
+      <circle cx="0" cy="0" r="16" fill="url(#sparkGrad)"/>
+      <!-- 6 rounded petals radiating outward -->
+      <g fill="url(#sparkGrad)">
+        <!-- Top -->
+        <rect x="-7" y="-60" width="14" height="48" rx="7"/>
+        <!-- Top-right -->
+        <rect x="-7" y="-60" width="14" height="48" rx="7" transform="rotate(60)"/>
+        <!-- Bottom-right -->
+        <rect x="-7" y="-60" width="14" height="48" rx="7" transform="rotate(120)"/>
+        <!-- Bottom -->
+        <rect x="-7" y="-60" width="14" height="48" rx="7" transform="rotate(180)"/>
+        <!-- Bottom-left -->
+        <rect x="-7" y="-60" width="14" height="48" rx="7" transform="rotate(240)"/>
+        <!-- Top-left -->
+        <rect x="-7" y="-60" width="14" height="48" rx="7" transform="rotate(300)"/>
+      </g>
+      <!-- Inner highlight -->
+      <circle cx="0" cy="0" r="10" fill="#F0A882" opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- === BOX (open, 3D perspective) === -->
+  <g filter="url(#dropShadow)">
+    <!-- Box interior (visible because lid is open) -->
+    <path d="M120,310 L256,270 L392,310 L392,410 L256,450 L120,410 Z" fill="url(#boxInner)"/>
+
+    <!-- Box front face -->
+    <path d="M120,310 L256,350 L256,450 L120,410 Z" fill="url(#boxFront)"/>
+
+    <!-- Box right face -->
+    <path d="M256,350 L392,310 L392,410 L256,450 Z" fill="url(#boxSide)"/>
+
+    <!-- Box top edge (rim) -->
+    <path d="M120,310 L256,270 L392,310 L256,350 Z" fill="url(#boxGrad)" opacity="0.5"/>
+
+    <!-- Lid (open, tilted back-left) -->
+    <path d="M118,310 L254,270 L254,240 L80,275 Z" fill="url(#lidGrad)" opacity="0.85"/>
+    <path d="M118,310 L80,275 L80,272 L118,307 Z" fill="#9E7445" opacity="0.6"/>
+
+    <!-- Box tape/stripe -->
+    <path d="M178,350 L178,410" stroke="#DDB882" stroke-width="3" opacity="0.4"/>
+    <path d="M196,345 L196,405" stroke="#DDB882" stroke-width="3" opacity="0.4"/>
+
+    <!-- Box highlight edge -->
+    <path d="M120,310 L256,350" stroke="#DDB882" stroke-width="1.5" opacity="0.3"/>
+    <path d="M256,350 L392,310" stroke="#E8C894" stroke-width="1" opacity="0.2"/>
+  </g>
+
+  <!-- "SKILLSHELF" text -->
+  <text x="256" y="490" text-anchor="middle" fill="#9E8E7E" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" letter-spacing="4" opacity="0.7">SKILLSHELF</text>
+</svg>

@@ -1,8 +1,22 @@
-# Skillshelf
+<p align="center">
+  <img src="assets/skillshelf-banner.png" alt="Skillshelf — Claude Code Skill Inventory" width="100%" />
+</p>
 
-**See everything you have. Find what you need.**
+<h1 align="center">Skillshelf</h1>
 
-Skillshelf is a Claude Code skill that gives you a complete, interactive inventory of every skill, plugin, agent, and command installed in your environment — with smart niche filtering, GitHub stats, and AI-powered skill recommendations.
+<p align="center">
+  <strong>See everything you have. Find what you need.</strong>
+</p>
+
+<p align="center">
+  Claude Code skill that gives you a complete, interactive inventory of every skill, plugin, agent, and command installed in your environment — with smart niche filtering, GitHub stats, and AI-powered skill recommendations.
+</p>
+
+<p align="center">
+  <a href="https://github.com/muteebmrj/skillshelf"><img src="https://img.shields.io/github/stars/muteebmrj/skillshelf?style=flat&color=D97757" alt="Stars" /></a>
+  <a href="https://github.com/muteebmrj/skillshelf/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
+  <a href="https://github.com/muteebmrj/skillshelf"><img src="https://img.shields.io/badge/Claude_Code-skill-orange.svg" alt="Claude Code Skill" /></a>
+</p>
 
 ---
 
@@ -194,7 +208,17 @@ skills/
 
 ## Author
 
-Created by [muteebmrj](https://github.com/muteebmrj)
+Created by **muteebmrj**
+
+<p>
+  <a href="https://github.com/muteebmrj"><img src="https://img.shields.io/badge/GitHub-muteebmrj-181717?style=flat&logo=github" alt="GitHub" /></a>
+  <a href="https://www.linkedin.com/in/muteebmrj"><img src="https://img.shields.io/badge/LinkedIn-muteebmrj-0A66C2?style=flat&logo=linkedin" alt="LinkedIn" /></a>
+  <a href="https://instagram.com/muteebmehraj"><img src="https://img.shields.io/badge/Instagram-@muteebmehraj-E4405F?style=flat&logo=instagram&logoColor=white" alt="Instagram" /></a>
+</p>
+
+---
+
+If you find this useful, give it a star and share it with someone who uses Claude Code.
 
 ## License
 
