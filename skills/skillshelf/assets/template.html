@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code: Skill Shelf</title>
+<style>
+  :root {
+    /* Notion Light Theme */
+    --bg:          #ffffff;
+    --bg-page:     #F7F6F3;
+    --bg-surface:  #ffffff;
+    --bg-hover:    #F1F1EF;
+    --bg-active:   #E9E5E0;
+    --bg-subtle:   #F7F6F3;
+
+    --fg:          #37352F;
+    --fg-secondary:#787774;
+    --fg-tertiary: #9B9A97;
+    --fg-light:    #ACABA9;
+
+    --border:      #E9E5E0;
+    --border-light:#EFEFEE;
+    --divider:     #E9E5E0;
+
+    /* Notion-style muted tag colors */
+    --tag-green-bg:    #DBEDDB;
+    --tag-green-fg:    #1F7A1F;
+    --tag-blue-bg:     #D3E5EF;
+    --tag-blue-fg:     #24548D;
+    --tag-orange-bg:   #FADEC9;
+    --tag-orange-fg:   #93541D;
+    --tag-yellow-bg:   #FDECC8;
+    --tag-yellow-fg:   #89632A;
+    --tag-purple-bg:   #E8DEEE;
+    --tag-purple-fg:   #6940A5;
+    --tag-pink-bg:     #F5E0E9;
+    --tag-pink-fg:     #AD1A72;
+    --tag-red-bg:      #FFE2DD;
+    --tag-red-fg:      #C4554D;
+    --tag-gray-bg:     #E3E2E0;
+    --tag-gray-fg:     #5A5A58;
+    --tag-teal-bg:     #D3E5EF;
+    --tag-teal-fg:     #24548D;
+
+    --accent:      #2EAADC;
+    --star-color:  #D9730D;
+    --link:        #37352F;
+    --link-hover:  #2EAADC;
+
+    --radius-sm:   4px;
+    --radius-md:   6px;
+    --radius-lg:   8px;
+
+    --shadow-sm:   0 1px 2px rgba(55, 53, 47, 0.04);
+    --shadow-md:   0 2px 8px rgba(55, 53, 47, 0.08);
+    --shadow-card: 0 1px 3px rgba(55, 53, 47, 0.04), 0 0 0 1px rgba(55, 53, 47, 0.04);
+
+    /* Usage dot colors */
+    --dot-gray:    #ACABA9;
+    --dot-green:   #1F7A1F;
+    --dot-yellow:  #89632A;
+    --dot-red:     #C4554D;
+
+    /* Popover */
+    --popover-bg:  #ffffff;
+    --popover-shadow: 0 4px 16px rgba(55, 53, 47, 0.12), 0 0 0 1px rgba(55, 53, 47, 0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) {
+      --bg:          #191919;
+      --bg-page:     #191919;
+      --bg-surface:  #202020;
+      --bg-hover:    #2F3437;
+      --bg-active:   #37393C;
+      --bg-subtle:   #252525;
+
+      --fg:          #E8E8E6;
+      --fg-secondary:#9B9A97;
+      --fg-tertiary: #6B6B6B;
+      --fg-light:    #505050;
+
+      --border:      #2F3437;
+      --border-light:#2F3437;
+      --divider:     #2F3437;
+
+      --tag-green-bg:    #2B593F;
+      --tag-green-fg:    #4DAB6D;
+      --tag-blue-bg:     #28456C;
+      --tag-blue-fg:     #529CCA;
+      --tag-orange-bg:   #603B20;
+      --tag-orange-fg:   #D9730D;
+      --tag-yellow-bg:   #594A2E;
+      --tag-yellow-fg:   #DFAB01;
+      --tag-purple-bg:   #492F64;
+      --tag-purple-fg:   #9A6DD7;
+      --tag-pink-bg:     #5E2A46;
+      --tag-pink-fg:     #C14C8A;
+      --tag-red-bg:      #6E3630;
+      --tag-red-fg:      #E16F64;
+      --tag-gray-bg:     #373737;
+      --tag-gray-fg:     #979797;
+      --tag-teal-bg:     #28456C;
+      --tag-teal-fg:     #529CCA;
+
+      --accent:      #529CCA;
+      --star-color:  #D9730D;
+      --link:        #E8E8E6;
+      --link-hover:  #529CCA;
+
+      --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.2);
+      --shadow-md:   0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.03);
+
+      --dot-gray:    #505050;
+      --dot-green:   #4DAB6D;
+      --dot-yellow:  #DFAB01;
+      --dot-red:     #E16F64;
+
+      --popover-bg:  #2F3437;
+      --popover-shadow: 0 4px 16px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  /* Manual dark mode toggle class — duplicates the dark vars */
+  :root.dark-mode {
+    --bg:#191919;--bg-page:#191919;--bg-surface:#202020;--bg-hover:#2F3437;--bg-active:#37393C;--bg-subtle:#252525;
+    --fg:#E8E8E6;--fg-secondary:#9B9A97;--fg-tertiary:#6B6B6B;--fg-light:#505050;
+    --border:#2F3437;--border-light:#2F3437;--divider:#2F3437;
+    --tag-green-bg:#2B593F;--tag-green-fg:#4DAB6D;--tag-blue-bg:#28456C;--tag-blue-fg:#529CCA;
+    --tag-orange-bg:#603B20;--tag-orange-fg:#D9730D;--tag-yellow-bg:#594A2E;--tag-yellow-fg:#DFAB01;
+    --tag-purple-bg:#492F64;--tag-purple-fg:#9A6DD7;--tag-pink-bg:#5E2A46;--tag-pink-fg:#C14C8A;
+    --tag-red-bg:#6E3630;--tag-red-fg:#E16F64;--tag-gray-bg:#373737;--tag-gray-fg:#979797;
+    --tag-teal-bg:#28456C;--tag-teal-fg:#529CCA;
+    --accent:#529CCA;--star-color:#D9730D;--link:#E8E8E6;--link-hover:#529CCA;
+    --shadow-sm:0 1px 2px rgba(0,0,0,0.2);--shadow-md:0 2px 8px rgba(0,0,0,0.3);
+    --shadow-card:0 1px 3px rgba(0,0,0,0.12),0 0 0 1px rgba(255,255,255,0.03);
+    --popover-bg:#2F3437;--popover-shadow:0 4px 16px rgba(0,0,0,0.32),0 0 0 1px rgba(255,255,255,0.06);
+  }
+
+  /* ---- Liquid Glass dark-mode refinements ---- */
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) .filter-btn,
+    :root:not(.light-mode) .niche-pill,
+    :root:not(.light-mode) .theme-toggle {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), 0 0 0 0.5px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    :root:not(.light-mode) .filter-btn:hover,
+    :root:not(.light-mode) .niche-pill:not(.active):hover,
+    :root:not(.light-mode) .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    }
+    :root:not(.light-mode) .filter-btn.active {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+    :root:not(.light-mode) .niche-pill.active {
+      border-color: rgba(255, 255, 255, 0.22);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    }
+    :root:not(.light-mode) .stat-card {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), 0 0 0 0.5px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    :root:not(.light-mode) .stat-card:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    }
+  }
+
+  :root.dark-mode .filter-btn,
+  :root.dark-mode .niche-pill,
+  :root.dark-mode .theme-toggle {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), 0 0 0 0.5px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  :root.dark-mode .filter-btn:hover,
+  :root.dark-mode .niche-pill:not(.active):hover,
+  :root.dark-mode .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  }
+  :root.dark-mode .filter-btn.active {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+  :root.dark-mode .niche-pill.active {
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  }
+  :root.dark-mode .stat-card {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), 0 0 0 0.5px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  :root.dark-mode .stat-card:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  }
+
+  /* ---- Theme Toggle ---- */
+  .page-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: var(--fg-secondary);
+    transition: all 200ms ease;
+    white-space: nowrap;
+    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 0.5px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.24);
+    color: var(--fg);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(255, 255, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .theme-toggle-icon { font-size: 1rem; line-height: 1; }
+
+  /* ---- Reset & Base ---- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+    background: var(--bg-page);
+    color: var(--fg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---- Page Layout ---- */
+  .page-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 48px 48px 32px;
+  }
+
+  /* ---- Page Header (Notion-style) ---- */
+  .page-icon {
+    font-size: 40px;
+    line-height: 1;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .page-subtitle {
+    font-size: 0.875rem;
+    color: var(--fg-secondary);
+    margin-bottom: 32px;
+  }
+
+  /* ---- Stat Cards (Notion callout style) ---- */
+  .stats-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 16px 24px;
+    min-width: 130px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 0.5px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transition: all 200ms ease;
+  }
+
+  .stat-card:hover {
+    background: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(255, 255, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .stat-num {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--fg-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+
+  /* ---- Toolbar / Controls ---- */
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-bottom: 12px;
+  }
+
+  .search-input {
+    flex: 1;
+    min-width: 220px;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-family: inherit;
+    background: var(--bg-page);
+    color: var(--fg);
+    outline: none;
+    transition: all 120ms ease;
+  }
+
+  .search-input:hover {
+    background: var(--bg-hover);
+  }
+
+  .search-input:focus {
+    background: var(--bg-surface);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(46, 170, 220, 0.15);
+  }
+
+  .search-input::placeholder {
+    color: var(--fg-tertiary);
+  }
+
+  .filter-btn {
+    padding: 5px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    color: var(--fg-secondary);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 200ms ease;
+    line-height: 1.5;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 0.5px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  .filter-btn:hover {
+    background: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: var(--fg);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(255, 255, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .filter-btn.active {
+    background: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.38);
+    color: var(--fg);
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+  }
+
+  .result-count {
+    font-size: 0.75rem;
+    color: var(--fg-tertiary);
+    margin-left: auto;
+    white-space: nowrap;
+    padding: 4px 0;
+  }
+
+  /* ---- Unused Toggle ---- */
+  /* ---- Niche Filter Row ---- */
+  .niche-toolbar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-bottom: 4px;
+  }
+
+  .niche-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 200ms ease;
+    line-height: 1.5;
+    white-space: nowrap;
+    outline: none;
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 0.5px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  .niche-pill:focus-visible {
+    box-shadow: 0 0 0 2px rgba(46, 170, 220, 0.3);
+  }
+
+  .niche-pill .niche-count {
+    font-weight: 400;
+    opacity: 0.7;
+    font-size: 0.6875rem;
+  }
+
+  /* Niche pill default state (inactive) - translucent glass with color tint */
+  .niche-pill-all          { background: rgba(255, 255, 255, 0.08); color: var(--fg-secondary); }
+  .niche-pill-design       { background: color-mix(in srgb, var(--tag-pink-bg) 30%, transparent); color: var(--tag-pink-fg); opacity: 0.65; }
+  .niche-pill-development  { background: color-mix(in srgb, var(--tag-blue-bg) 30%, transparent); color: var(--tag-blue-fg); opacity: 0.65; }
+  .niche-pill-marketing    { background: color-mix(in srgb, var(--tag-orange-bg) 30%, transparent); color: var(--tag-orange-fg); opacity: 0.65; }
+  .niche-pill-sales        { background: color-mix(in srgb, var(--tag-yellow-bg) 30%, transparent); color: var(--tag-yellow-fg); opacity: 0.65; }
+  .niche-pill-devops       { background: color-mix(in srgb, var(--tag-teal-bg) 30%, transparent); color: var(--tag-teal-fg); opacity: 0.65; }
+  .niche-pill-security     { background: color-mix(in srgb, var(--tag-red-bg) 30%, transparent); color: var(--tag-red-fg); opacity: 0.65; }
+  .niche-pill-data         { background: color-mix(in srgb, var(--tag-purple-bg) 30%, transparent); color: var(--tag-purple-fg); opacity: 0.65; }
+  .niche-pill-ai           { background: color-mix(in srgb, var(--tag-green-bg) 30%, transparent); color: var(--tag-green-fg); opacity: 0.65; }
+  .niche-pill-productivity { background: color-mix(in srgb, var(--tag-yellow-bg) 30%, transparent); color: var(--tag-yellow-fg); opacity: 0.65; }
+  .niche-pill-content      { background: color-mix(in srgb, var(--tag-orange-bg) 30%, transparent); color: var(--tag-orange-fg); opacity: 0.65; }
+  .niche-pill-gaming       { background: color-mix(in srgb, var(--tag-purple-bg) 30%, transparent); color: var(--tag-purple-fg); opacity: 0.65; }
+  .niche-pill-other        { background: color-mix(in srgb, var(--tag-gray-bg) 30%, transparent); color: var(--tag-gray-fg); opacity: 0.65; }
+
+  /* Active state - color glows through the glass more prominently */
+  .niche-pill.active {
+    opacity: 1 !important;
+    font-weight: 600;
+    border-color: rgba(255, 255, 255, 0.38);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+  }
+
+  .niche-pill-all.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--fg);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .niche-pill-design.active       { background: color-mix(in srgb, var(--tag-pink-bg) 55%, transparent); }
+  .niche-pill-development.active  { background: color-mix(in srgb, var(--tag-blue-bg) 55%, transparent); }
+  .niche-pill-marketing.active    { background: color-mix(in srgb, var(--tag-orange-bg) 55%, transparent); }
+  .niche-pill-sales.active        { background: color-mix(in srgb, var(--tag-yellow-bg) 55%, transparent); }
+  .niche-pill-devops.active       { background: color-mix(in srgb, var(--tag-teal-bg) 55%, transparent); }
+  .niche-pill-security.active     { background: color-mix(in srgb, var(--tag-red-bg) 55%, transparent); }
+  .niche-pill-data.active         { background: color-mix(in srgb, var(--tag-purple-bg) 55%, transparent); }
+  .niche-pill-ai.active           { background: color-mix(in srgb, var(--tag-green-bg) 55%, transparent); }
+  .niche-pill-productivity.active { background: color-mix(in srgb, var(--tag-yellow-bg) 55%, transparent); }
+  .niche-pill-content.active      { background: color-mix(in srgb, var(--tag-orange-bg) 55%, transparent); }
+  .niche-pill-gaming.active       { background: color-mix(in srgb, var(--tag-purple-bg) 55%, transparent); }
+  .niche-pill-other.active        { background: color-mix(in srgb, var(--tag-gray-bg) 55%, transparent); }
+
+  .niche-pill:not(.active):hover {
+    opacity: 0.85;
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(255, 255, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  /* ---- Table (Notion database view) ---- */
+  .table-wrap {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  th {
+    background: var(--bg-subtle);
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: var(--fg-secondary);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition: color 100ms ease;
+    letter-spacing: 0.01em;
+  }
+
+  th:first-child { padding-left: 16px; }
+  th:last-child { padding-right: 16px; }
+
+  th:hover {
+    background: var(--bg-hover);
+    color: var(--fg);
+  }
+
+  th .sort-icon {
+    display: inline-block;
+    margin-left: 4px;
+    opacity: 0;
+    font-size: 0.65rem;
+    transition: opacity 100ms ease;
+    vertical-align: middle;
+  }
+
+  th:hover .sort-icon {
+    opacity: 0.4;
+  }
+
+  th.sorted .sort-icon {
+    opacity: 1;
+    color: var(--accent);
+  }
+
+  /* Non-sortable description and github columns */
+  th.no-sort {
+    cursor: default;
+  }
+  th.no-sort:hover {
+    background: var(--bg-subtle);
+    color: var(--fg-secondary);
+  }
+
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+    color: var(--fg);
+  }
+
+  td:first-child { padding-left: 16px; }
+  td:last-child { padding-right: 16px; }
+
+  tbody tr {
+    transition: background 80ms ease;
+  }
+
+  tbody tr:hover {
+    background: var(--bg-hover);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ---- Name Column ---- */
+  .cell-name {
+    font-weight: 500;
+    color: var(--fg);
+    white-space: nowrap;
+  }
+
+  .cell-name-meta {
+    color: var(--fg-tertiary);
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-left: 6px;
+  }
+
+  /* ---- Tags / Badges (Notion-style) ---- */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 7px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.6;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+
+  .tag-skill   { background: var(--tag-green-bg);  color: var(--tag-green-fg); }
+  .tag-plugin  { background: var(--tag-blue-bg);   color: var(--tag-blue-fg); }
+  .tag-agent   { background: var(--tag-orange-bg);  color: var(--tag-orange-fg); }
+  .tag-command { background: var(--tag-yellow-bg);  color: var(--tag-yellow-fg); }
+
+  /* Source tags */
+  .tag-source {
+    background: var(--tag-gray-bg);
+    color: var(--tag-gray-fg);
+    font-size: 0.6875rem;
+  }
+
+  .tag-source-custom       { background: var(--tag-green-bg);  color: var(--tag-green-fg); }
+  .tag-source-official     { background: var(--tag-blue-bg);   color: var(--tag-blue-fg); }
+  .tag-source-community    { background: var(--tag-purple-bg); color: var(--tag-purple-fg); }
+  .tag-source-external     { background: var(--tag-purple-bg); color: var(--tag-purple-fg); }
+  .tag-source-agents       { background: var(--tag-orange-bg); color: var(--tag-orange-fg); }
+  .tag-source-installed    { background: var(--tag-teal-bg);   color: var(--tag-teal-fg); }
+  .tag-source-project      { background: var(--tag-yellow-bg); color: var(--tag-yellow-fg); }
+  .tag-source-linked       { background: var(--tag-gray-bg);   color: var(--tag-gray-fg); }
+
+  /* MCP indicator */
+  .mcp-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 5px;
+    border-radius: var(--radius-sm);
+    font-size: 0.625rem;
+    font-weight: 600;
+    background: var(--tag-gray-bg);
+    color: var(--fg-secondary);
+    letter-spacing: 0.03em;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* ---- Category ---- */
+  .cell-category {
+    color: var(--fg-secondary);
+    font-size: 0.8125rem;
+    text-transform: capitalize;
+  }
+
+  /* ---- Stars ---- */
+  .cell-stars {
+    font-weight: 500;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    color: var(--fg-secondary);
+  }
+
+  .cell-stars .star-icon {
+    color: var(--star-color);
+    margin-right: 2px;
+  }
+
+  .cell-stars-empty {
+    color: var(--fg-light);
+    font-size: 0.8125rem;
+  }
+
+
+  /* ---- Description + Info Icon ---- */
+  .cell-desc-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .cell-desc {
+    color: var(--fg-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .info-icon-wrap {
+    position: relative;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--fg-tertiary);
+    color: var(--fg-tertiary);
+    font-size: 9px;
+    font-weight: 700;
+    font-style: italic;
+    font-family: Georgia, 'Times New Roman', serif;
+    cursor: pointer;
+    transition: all 120ms ease;
+    line-height: 1;
+    user-select: none;
+    flex-shrink: 0;
+    background: transparent;
+  }
+
+  .info-icon:hover {
+    border-color: var(--fg-secondary);
+    color: var(--fg-secondary);
+    background: var(--bg-hover);
+  }
+
+  /* ---- Description Popover ---- */
+  .desc-popover {
+    position: absolute;
+    z-index: 200;
+    background: var(--popover-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--popover-shadow);
+    padding: 14px 16px;
+    max-width: 400px;
+    min-width: 200px;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--fg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .desc-popover.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .desc-popover-arrow {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--popover-bg);
+    transform: rotate(45deg);
+    box-shadow: -1px -1px 1px rgba(55, 53, 47, 0.04);
+  }
+
+  .desc-popover-arrow.arrow-bottom {
+    bottom: -5px;
+    left: 50%;
+    margin-left: -5px;
+    box-shadow: 1px 1px 1px rgba(55, 53, 47, 0.04);
+  }
+
+  .desc-popover-arrow.arrow-top {
+    top: -5px;
+    left: 50%;
+    margin-left: -5px;
+  }
+
+  /* ---- Version ---- */
+  .cell-version {
+    color: var(--fg-tertiary);
+    font-size: 0.8125rem;
+    font-family: 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+    white-space: nowrap;
+  }
+
+  /* ---- GitHub Link ---- */
+  .cell-gh a {
+    color: var(--fg-secondary);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    border-bottom: 1px solid transparent;
+    transition: all 100ms ease;
+  }
+
+  .cell-gh a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .cell-gh-empty {
+    color: var(--fg-light);
+  }
+
+  /* ---- Empty State ---- */
+  .empty-state {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--fg-tertiary);
+    font-size: 0.9375rem;
+  }
+
+  .empty-state-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.5;
+  }
+
+  /* ---- Footer ---- */
+  .page-footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    color: var(--fg-tertiary);
+    font-size: 0.75rem;
+    margin-top: 16px;
+  }
+
+  /* =========================================================
+     RESPONSIVE BREAKPOINTS
+     ========================================================= */
+
+  /* ---- Desktop (max-width: 1199px) ---- */
+  @media (max-width: 1199px) {
+    .page-wrapper {
+      padding: 36px 48px 24px;
+    }
+
+    /* Hide Version and GitHub columns on smaller desktops */
+    th:nth-child(7),
+    td:nth-child(7),
+    th:nth-child(8),
+    td:nth-child(8) {
+      display: none;
+    }
+
+  }
+
+  /* ---- Tablet (max-width: 768px) ---- */
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding: 24px 16px 16px;
+    }
+
+    /* Page icon smaller */
+    .page-icon svg {
+      width: 34px;
+      height: 34px;
+    }
+
+    .page-title {
+      font-size: 1.625rem;
+    }
+
+    .page-subtitle {
+      margin-bottom: 20px;
+    }
+
+    /* Stat cards: auto-fit grid */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 8px;
+    }
+
+    .stat-card {
+      padding: 12px 16px;
+      min-width: unset;
+    }
+
+    .stat-num {
+      font-size: 1.375rem;
+    }
+
+    .stat-label {
+      font-size: 0.6875rem;
+    }
+
+    /* Toolbar: search full-width above filters */
+    .toolbar {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .search-input {
+      flex: none;
+      width: 100%;
+      min-width: unset;
+      order: -1;
+    }
+
+    .filter-btn {
+      padding: 8px 14px;
+      min-height: 44px;
+      font-size: 0.8125rem;
+    }
+
+    .result-count {
+      width: 100%;
+      text-align: right;
+      margin-left: 0;
+    }
+
+    /* Niche pills: horizontal scroll, no wrap */
+    .niche-toolbar {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 6px;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .niche-toolbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .niche-pill {
+      padding: 6px 12px;
+      font-size: 0.6875rem;
+      min-height: 36px;
+      flex-shrink: 0;
+    }
+
+    /* Table: horizontal scroll with sticky Name column */
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      font-size: 0.8125rem;
+      min-width: 600px;
+    }
+
+    th, td {
+      padding: 6px 8px;
+    }
+
+    th:first-child,
+    td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 5;
+      padding-left: 12px;
+    }
+
+    th:first-child {
+      background: var(--bg-subtle);
+      z-index: 11;
+    }
+
+    td:first-child {
+      background: var(--bg-surface);
+    }
+
+    tbody tr:hover td:first-child {
+      background: var(--bg-hover);
+    }
+
+    th:last-child, td:last-child {
+      padding-right: 12px;
+    }
+
+    /* Hide Version and GitHub columns */
+    th:nth-child(7),
+    td:nth-child(7),
+    th:nth-child(8),
+    td:nth-child(8) {
+      display: none;
+    }
+
+    .cell-desc-wrap {
+      max-width: 180px;
+    }
+
+    .cell-desc {
+      -webkit-line-clamp: 1;
+    }
+
+    /* Popover: constrain to viewport */
+    .desc-popover {
+      max-width: calc(100vw - 32px);
+      min-width: 160px;
+    }
+
+    /* Footer padding */
+    .page-footer {
+      padding: 16px 0 12px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      padding: 48px 16px;
+    }
+  }
+
+  /* ---- Mobile (max-width: 480px) ---- */
+  @media (max-width: 480px) {
+    .page-wrapper {
+      padding: 16px 12px 12px;
+    }
+
+    /* Page icon even smaller */
+    .page-icon svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .page-subtitle {
+      font-size: 0.8125rem;
+      margin-bottom: 16px;
+    }
+
+    /* Header row: keep toggle accessible */
+    .page-header-row {
+      gap: 8px;
+    }
+
+    .theme-toggle {
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      margin-top: 4px;
+    }
+
+    .theme-toggle-icon {
+      font-size: 0.875rem;
+    }
+
+    /* Stat cards: 2 column grid */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .stat-card {
+      padding: 10px 12px;
+      min-width: unset;
+      border-radius: 12px;
+    }
+
+    .stat-num {
+      font-size: 1.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.625rem;
+    }
+
+    /* Toolbar adjustments */
+    .toolbar {
+      gap: 6px;
+    }
+
+    .search-input {
+      padding: 8px 10px;
+      font-size: 0.875rem;
+      min-height: 44px;
+    }
+
+    .filter-btn {
+      padding: 8px 12px;
+      min-height: 44px;
+      font-size: 0.75rem;
+    }
+
+    /* Niche pills smaller on mobile */
+    .niche-pill {
+      padding: 5px 10px;
+      font-size: 0.625rem;
+      min-height: 32px;
+    }
+
+    .niche-pill .niche-count {
+      font-size: 0.5625rem;
+    }
+
+    /* Table: still scrollable, tighter */
+    table {
+      font-size: 0.75rem;
+      min-width: 520px;
+    }
+
+    th, td {
+      padding: 5px 6px;
+    }
+
+    th:first-child,
+    td:first-child {
+      padding-left: 10px;
+    }
+
+    /* Also hide Stars column on very small screens */
+    th:nth-child(5),
+    td:nth-child(5) {
+      display: none;
+    }
+
+    .cell-desc-wrap {
+      max-width: 140px;
+    }
+
+    .cell-desc {
+      font-size: 0.6875rem;
+      -webkit-line-clamp: 1;
+    }
+
+    .cell-name {
+      font-size: 0.8125rem;
+    }
+
+    .cell-name-meta {
+      font-size: 0.625rem;
+    }
+
+    .mcp-indicator {
+      font-size: 0.5625rem;
+      padding: 0px 4px;
+    }
+
+    .tag {
+      font-size: 0.6875rem;
+      padding: 0px 5px;
+    }
+
+    .tag-source {
+      font-size: 0.625rem;
+    }
+
+    .cell-category {
+      font-size: 0.75rem;
+    }
+
+    /* Popover: full-width on mobile */
+    .desc-popover {
+      max-width: calc(100vw - 24px);
+      min-width: 140px;
+      font-size: 0.75rem;
+      padding: 10px 12px;
+    }
+
+    /* Footer */
+    .page-footer {
+      padding: 12px 0 8px;
+      font-size: 0.6875rem;
+    }
+
+    /* Empty state */
+    .empty-state {
+      padding: 40px 12px;
+      font-size: 0.8125rem;
+    }
+
+    .empty-state-icon {
+      font-size: 1.5rem;
+    }
+
+    /* Table wrap border radius */
+    .table-wrap {
+      border-radius: var(--radius-md);
+    }
+  }
+
+  /* ---- Very small mobile (max-width: 360px) ---- */
+  @media (max-width: 360px) {
+    .page-wrapper {
+      padding: 12px 8px 8px;
+    }
+
+    .page-title {
+      font-size: 1.375rem;
+    }
+
+    /* Stack stat cards single column if extremely narrow */
+    .stats-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-num {
+      font-size: 1.125rem;
+    }
+
+    .filter-btn {
+      padding: 8px 10px;
+      font-size: 0.6875rem;
+    }
+
+    table {
+      min-width: 440px;
+    }
+
+    /* Hide Category on very small screens too */
+    th:nth-child(4),
+    td:nth-child(4) {
+      display: none;
+    }
+  }
+
+  /* ---- Scrollbar styling ---- */
+  .table-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .table-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .table-scroll::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+
+  .table-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--fg-tertiary);
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- Page Header -->
+  <div class="page-header-row">
+    <div>
+      <span class="page-icon" role="img" aria-label="Claude Code Skill Shelf"><svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="18" width="32" height="20" rx="3" fill="var(--tag-orange-bg)" stroke="var(--tag-orange-fg)" stroke-width="1.5"/><rect x="10" y="22" width="24" height="3" rx="1" fill="var(--tag-orange-fg)" opacity="0.3"/><rect x="10" y="28" width="16" height="3" rx="1" fill="var(--tag-orange-fg)" opacity="0.2"/><path d="M15 18V10C15 8.34 16.34 7 18 7H26C27.66 7 29 8.34 29 10V18" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="12" r="3" fill="var(--accent)"/><path d="M20.5 12L21.5 13L23.5 11" stroke="var(--bg-surface)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <h1 class="page-title">Claude Code: Skill Shelf</h1>
+      <p class="page-subtitle">Generated on <span id="gen-date"></span></p>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark mode">
+      <span class="theme-toggle-icon" id="theme-icon">&#9790;</span>
+      <span id="theme-label">Dark</span>
+    </button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row" id="stats"></div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <input type="text" class="search-input" id="search" placeholder="Filter skills, plugins, agents...">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="skill">Skills</button>
+    <button class="filter-btn" data-filter="plugin">Plugins</button>
+    <button class="filter-btn" data-filter="agent">Agents</button>
+    <button class="filter-btn" data-filter="command">Commands</button>
+    <span class="result-count" id="result-count"></span>
+  </div>
+
+  <!-- Niche Filter Row -->
+  <div class="niche-toolbar" id="niche-toolbar"></div>
+
+  <!-- Database Table -->
+  <div class="table-wrap">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="name">Name <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="type">Type <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="source">Source <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="category">Category <span class="sort-icon">&#9650;</span></th>
+            <th data-sort="github_stars">Stars <span class="sort-icon">&#9650;</span></th>
+            <th class="no-sort">Description</th>
+            <th data-sort="version">Version <span class="sort-icon">&#9650;</span></th>
+            <th class="no-sort">GitHub</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="empty-state" id="empty" style="display:none">
+    <span class="empty-state-icon">&#128269;</span>
+    No matching results found.
+  </div>
+
+</div>
+
+<div class="page-footer">
+  Skillshelf v1.0.0 &mdash; by muteebmrj
+</div>
+
+<!-- Shared popover element for description info -->
+<div class="desc-popover" id="desc-popover">
+  <div class="desc-popover-arrow" id="desc-popover-arrow"></div>
+  <div id="desc-popover-content"></div>
+</div>
+
+<script>
+// DATA_PLACEHOLDER will be replaced by the skill with actual JSON
+const DATA = __INVENTORY_DATA__;
+
+const sourceLabels = {
+  'custom': 'Custom',
+  'marketplace-official': 'Official',
+  'marketplace-community': 'Community',
+  'marketplace-external': 'External',
+  'agents-repo': 'Agents Repo',
+  'skillfish-installed': 'Installed',
+  'project-local': 'Project',
+  'linked': 'Linked'
+};
+
+const sourceTagClass = {
+  'custom': 'tag-source-custom',
+  'marketplace-official': 'tag-source-official',
+  'marketplace-community': 'tag-source-community',
+  'marketplace-external': 'tag-source-external',
+  'agents-repo': 'tag-source-agents',
+  'skillfish-installed': 'tag-source-installed',
+  'project-local': 'tag-source-project',
+  'linked': 'tag-source-linked'
+};
+
+const typeTagClass = {
+  'skill': 'tag-skill',
+  'plugin': 'tag-plugin',
+  'agent': 'tag-agent',
+  'command': 'tag-command'
+};
+
+// Niche configuration: name -> CSS class suffix
+const nicheConfig = [
+  { key: 'Design',           cssClass: 'niche-pill-design' },
+  { key: 'Development',      cssClass: 'niche-pill-development' },
+  { key: 'Marketing',        cssClass: 'niche-pill-marketing' },
+  { key: 'Sales',            cssClass: 'niche-pill-sales' },
+  { key: 'DevOps',           cssClass: 'niche-pill-devops' },
+  { key: 'Security',         cssClass: 'niche-pill-security' },
+  { key: 'Data',             cssClass: 'niche-pill-data' },
+  { key: 'AI & ML',          cssClass: 'niche-pill-ai' },
+  { key: 'Productivity',     cssClass: 'niche-pill-productivity' },
+  { key: 'Content Creation', cssClass: 'niche-pill-content' },
+  { key: 'Gaming',           cssClass: 'niche-pill-gaming' },
+  { key: 'Other',            cssClass: 'niche-pill-other' }
+];
+
+// State
+let currentSort = { col: 'name', asc: true };
+let currentFilter = 'all';
+let activeNiches = new Set();   // empty = all niches shown
+
+// ---- Render niche pills ----
+function renderNichePills() {
+  const counts = DATA.niche_counts || {};
+  const toolbar = document.getElementById('niche-toolbar');
+  let html = '<button class="niche-pill niche-pill-all active" data-niche="__all__">All Niches</button>';
+  nicheConfig.forEach(n => {
+    const c = counts[n.key] || 0;
+    html += `<button class="niche-pill ${n.cssClass}" data-niche="${esc(n.key)}">${esc(n.key)} <span class="niche-count">(${c})</span></button>`;
+  });
+  toolbar.innerHTML = html;
+
+  toolbar.addEventListener('click', function(e) {
+    const pill = e.target.closest('.niche-pill');
+    if (!pill) return;
+    const niche = pill.dataset.niche;
+    if (niche === '__all__') {
+      activeNiches.clear();
+      toolbar.querySelectorAll('.niche-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    } else {
+      // Deactivate "All Niches"
+      toolbar.querySelector('[data-niche="__all__"]').classList.remove('active');
+      // Toggle this niche
+      if (activeNiches.has(niche)) {
+        activeNiches.delete(niche);
+        pill.classList.remove('active');
+      } else {
+        activeNiches.add(niche);
+        pill.classList.add('active');
+      }
+      // If nothing is active, re-activate "All"
+      if (activeNiches.size === 0) {
+        toolbar.querySelector('[data-niche="__all__"]').classList.add('active');
+      }
+    }
+    renderTable();
+  });
+}
+
+// ---- Usage helpers ----
+function getUsageStatus(entry) {
+  const count = entry.usage_count || 0;
+  if (count === 0) return { cls: 'usage-dot-gray', label: 'Never used' };
+
+  const lastUsed = entry.last_used ? new Date(entry.last_used) : null;
+  if (!lastUsed) return { cls: 'usage-dot-gray', label: 'Used ' + count + ' times' };
+
+  const now = new Date();
+  const diffMs = now - lastUsed;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const ago = formatTimeAgo(lastUsed);
+
+  if (diffDays <= 7) {
+    return { cls: 'usage-dot-green', label: 'Active \u2014 used ' + count + ' time' + (count !== 1 ? 's' : '') + ', last used ' + ago };
+  } else if (diffDays <= 30) {
+    return { cls: 'usage-dot-yellow', label: 'Recent \u2014 used ' + count + ' time' + (count !== 1 ? 's' : '') + ', last used ' + ago };
+  } else {
+    return { cls: 'usage-dot-red', label: 'Stale \u2014 used ' + count + ' time' + (count !== 1 ? 's' : '') + ', last used ' + ago };
+  }
+}
+
+function formatTimeAgo(date) {
+  const now = new Date();
+  const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMins < 1) return 'just now';
+  if (diffMins < 60) return diffMins + 'm ago';
+  if (diffHours < 24) return diffHours + 'h ago';
+  if (diffDays < 7) return diffDays + 'd ago';
+  if (diffDays < 30) return Math.floor(diffDays / 7) + 'w ago';
+  if (diffDays < 365) return Math.floor(diffDays / 30) + 'mo ago';
+  return Math.floor(diffDays / 365) + 'y ago';
+}
+
+// Render stats
+function renderStats(entries) {
+  const counts = {};
+  entries.forEach(e => { counts[e.type] = (counts[e.type] || 0) + 1; });
+  const total = entries.length;
+  const statsEl = document.getElementById('stats');
+  let html = '<div class="stat-card"><div class="stat-num">' + total + '</div><div class="stat-label">Total</div></div>';
+  ['skill', 'plugin', 'agent', 'command'].forEach(function(t) {
+    if (counts[t]) {
+      html += '<div class="stat-card"><div class="stat-num">' + counts[t] + '</div><div class="stat-label">' + t + 's</div></div>';
+    }
+  });
+  // Count unique sources
+  var customCount = entries.filter(function(e) { return ['custom', 'skillfish-installed', 'linked'].indexOf(e.source) !== -1; }).length;
+  html += '<div class="stat-card"><div class="stat-num">' + customCount + '</div><div class="stat-label">Custom/Installed</div></div>';
+  statsEl.innerHTML = html;
+}
+
+// Render table
+function renderTable() {
+  const query = document.getElementById('search').value.toLowerCase();
+  let filtered = DATA.entries.filter(function(e) {
+    // Type filter
+    if (currentFilter !== 'all' && e.type !== currentFilter) return false;
+    // Niche filter (OR among active niches, AND with type)
+    if (activeNiches.size > 0) {
+      const entryNiches = e.niches || [];
+      const matched = entryNiches.some(function(n) { return activeNiches.has(n); });
+      if (!matched) return false;
+    }
+    // Search
+    if (query) {
+      var hay = (e.name + ' ' + e.description + ' ' + e.category + ' ' + e.source + ' ' + e.author + ' ' + e.github_repo + ' ' + (e.niches || []).join(' ')).toLowerCase();
+      return hay.indexOf(query) !== -1;
+    }
+    return true;
+  });
+
+  // Sort
+  filtered.sort(function(a, b) {
+    var va = a[currentSort.col] || '';
+    var vb = b[currentSort.col] || '';
+    if (currentSort.col === 'github_stars') {
+      va = (typeof va === 'number') ? va : -1;
+      vb = (typeof vb === 'number') ? vb : -1;
+      return currentSort.asc ? va - vb : vb - va;
+    }
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va < vb) return currentSort.asc ? -1 : 1;
+    if (va > vb) return currentSort.asc ? 1 : -1;
+    return 0;
+  });
+
+  var tbody = document.getElementById('tbody');
+  var empty = document.getElementById('empty');
+  var countEl = document.getElementById('result-count');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    countEl.textContent = '0 results';
+    return;
+  }
+  empty.style.display = 'none';
+  countEl.textContent = filtered.length + (filtered.length === 1 ? ' result' : ' results');
+
+  tbody.innerHTML = filtered.map(function(e) {
+    var starsHtml = e.github_stars != null
+      ? '<span class="cell-stars"><span class="star-icon">&#9733;</span>' + e.github_stars.toLocaleString() + '</span>'
+      : '<span class="cell-stars-empty">&mdash;</span>';
+
+    var ghHtml = e.github_repo
+      ? '<a href="https://github.com/' + esc(e.github_repo) + '" target="_blank" rel="noopener">' + esc(e.github_repo) + '</a>'
+      : '<span class="cell-gh-empty">&mdash;</span>';
+
+    var mcpHtml = e.has_mcp
+      ? '<span class="mcp-indicator">MCP</span>'
+      : '';
+
+    var subSkillHtml = e.sub_skill_count > 0
+      ? '<span class="cell-name-meta">(' + e.sub_skill_count + ' skills)</span>'
+      : '';
+
+    var srcClass = sourceTagClass[e.source] || 'tag-source';
+    var typeClass = typeTagClass[e.type] || '';
+
+    // Description with info icon
+    var descText = e.description || '\u2014';
+    var descHtml = '<div class="cell-desc-wrap">'
+      + '<div class="cell-desc">' + esc(descText) + '</div>'
+      + (descText !== '\u2014' && descText.length > 60
+          ? '<span class="info-icon-wrap"><span class="info-icon" data-desc="' + esc(descText) + '" tabindex="0" role="button" aria-label="Show full description">i</span></span>'
+          : '')
+      + '</div>';
+
+    return '<tr>'
+      + '<td><span class="cell-name">' + esc(e.name) + '</span>' + subSkillHtml + mcpHtml + '</td>'
+      + '<td><span class="tag ' + typeClass + '">' + esc(e.type) + '</span></td>'
+      + '<td><span class="tag tag-source ' + srcClass + '">' + esc(sourceLabels[e.source] || e.source) + '</span></td>'
+      + '<td><span class="cell-category">' + esc(e.category || '\u2014') + '</span></td>'
+      + '<td>' + starsHtml + '</td>'
+      + '<td>' + descHtml + '</td>'
+      + '<td><span class="cell-version">' + esc(e.version || '\u2014') + '</span></td>'
+      + '<td class="cell-gh">' + ghHtml + '</td>'
+      + '</tr>';
+  }).join('');
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ---- Popover logic for description info icon ----
+(function() {
+  var popover = document.getElementById('desc-popover');
+  var popContent = document.getElementById('desc-popover-content');
+  var popArrow = document.getElementById('desc-popover-arrow');
+  var currentIcon = null;
+  var hideTimer = null;
+
+  function showPopover(icon) {
+    var desc = icon.getAttribute('data-desc');
+    if (!desc) return;
+    popContent.textContent = desc;
+    currentIcon = icon;
+
+    // Temporarily make visible offscreen so we can measure
+    popover.style.left = '-9999px';
+    popover.style.top = '-9999px';
+    popover.classList.add('visible');
+
+    var iconRect = icon.getBoundingClientRect();
+    var popRect = popover.getBoundingClientRect();
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+
+    // Determine whether popover goes above or below
+    var spaceAbove = iconRect.top;
+    var spaceBelow = vh - iconRect.bottom;
+    var goAbove = spaceAbove > spaceBelow && spaceAbove >= popRect.height + 12;
+
+    var top, arrowClass;
+    if (goAbove) {
+      top = iconRect.top - popRect.height - 10 + window.scrollY;
+      arrowClass = 'arrow-bottom';
+    } else {
+      top = iconRect.bottom + 10 + window.scrollY;
+      arrowClass = 'arrow-top';
+    }
+
+    // Horizontal centering, clamped to viewport
+    var left = iconRect.left + iconRect.width / 2 - popRect.width / 2 + window.scrollX;
+    var minLeft = window.scrollX + 8;
+    var maxLeft = window.scrollX + vw - popRect.width - 8;
+    if (left < minLeft) left = minLeft;
+    if (left > maxLeft) left = maxLeft;
+
+    // Arrow offset relative to popover
+    var arrowLeft = iconRect.left + iconRect.width / 2 + window.scrollX - left;
+    arrowLeft = Math.max(12, Math.min(arrowLeft, popRect.width - 12));
+
+    popover.style.top = top + 'px';
+    popover.style.left = left + 'px';
+    popArrow.className = 'desc-popover-arrow ' + arrowClass;
+    popArrow.style.left = arrowLeft + 'px';
+    popArrow.style.marginLeft = '0';
+  }
+
+  function hidePopover() {
+    popover.classList.remove('visible');
+    currentIcon = null;
+  }
+
+  // Hover logic: show on mouseenter of icon, keep visible while on icon or popover
+  document.addEventListener('mouseover', function(e) {
+    var icon = e.target.closest('.info-icon');
+    if (icon) {
+      clearTimeout(hideTimer);
+      showPopover(icon);
+      return;
+    }
+    if (e.target.closest('.desc-popover')) {
+      clearTimeout(hideTimer);
+      return;
+    }
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    var icon = e.target.closest('.info-icon');
+    var pop = e.target.closest('.desc-popover');
+    if (icon || pop) {
+      hideTimer = setTimeout(hidePopover, 120);
+    }
+  });
+
+  // Click toggle for mobile
+  document.addEventListener('click', function(e) {
+    var icon = e.target.closest('.info-icon');
+    if (icon) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (currentIcon === icon && popover.classList.contains('visible')) {
+        hidePopover();
+      } else {
+        showPopover(icon);
+      }
+      return;
+    }
+    // Close if clicking outside
+    if (!e.target.closest('.desc-popover')) {
+      hidePopover();
+    }
+  });
+
+  // Close on escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') hidePopover();
+  });
+})();
+
+// ---- Event listeners ----
+document.getElementById('search').addEventListener('input', renderTable);
+
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderTable();
+  });
+});
+
+// Theme toggle
+(function() {
+  var toggle = document.getElementById('theme-toggle');
+  var icon = document.getElementById('theme-icon');
+  var label = document.getElementById('theme-label');
+  var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  function applyTheme(dark) {
+    isDark = dark;
+    if (dark) {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+      icon.innerHTML = '&#9788;';
+      label.textContent = 'Light';
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.classList.add('light-mode');
+      icon.innerHTML = '&#9790;';
+      label.textContent = 'Dark';
+    }
+  }
+
+  // Initialize based on system preference
+  applyTheme(isDark);
+
+  toggle.addEventListener('click', function() {
+    applyTheme(!isDark);
+  });
+})();
+
+document.querySelectorAll('th[data-sort]').forEach(function(th) {
+  th.addEventListener('click', function() {
+    var col = th.dataset.sort;
+    if (currentSort.col === col) {
+      currentSort.asc = !currentSort.asc;
+    } else {
+      currentSort = { col: col, asc: true };
+    }
+    document.querySelectorAll('th').forEach(function(t) { t.classList.remove('sorted'); });
+    th.classList.add('sorted');
+    th.querySelector('.sort-icon').innerHTML = currentSort.asc ? '&#9650;' : '&#9660;';
+    renderTable();
+  });
+});
+
+// Init
+document.getElementById('gen-date').textContent = DATA.scanned_at ? new Date(DATA.scanned_at).toLocaleString() : new Date().toLocaleString();
+renderStats(DATA.entries);
+renderNichePills();
+renderTable();
+</script>
+</body>
+</html>

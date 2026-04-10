@@ -1,0 +1,11 @@
+{
+  "hooks": [
+    {
+      "event": "PostToolUse",
+      "matcher": {
+        "tool_name": "Skill"
+      },
+      "command": "python3 \"$HOME/.claude/skills/skillshelf/scripts/track-usage.py\" \"$TOOL_INPUT_SKILL\" 2>/dev/null || true"
+    }
+  ]
+}

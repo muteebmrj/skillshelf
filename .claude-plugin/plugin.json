@@ -1,0 +1,8 @@
+{
+  "name": "skillshelf",
+  "description": "List all installed Claude Code skills, plugins, agents, and commands with metadata, source classification, GitHub stars, and interactive HTML reports.",
+  "version": "1.0.0",
+  "author": {
+    "name": "muteebmrj"
+  }
+}
